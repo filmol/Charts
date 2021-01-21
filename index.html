@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>JS Trade Chart</title>
+</head>
+<body>
+    <div class="container">
+        <canvas id="myChart"></canvas>
+        <form id="newData" >
+            Fond: <input type="text" name="fond"><br>
+            Månadsspar: <input type="text" name="mspar"><br><br>
+            <input type="button"  id="newDataButton" value="Submit">
+          </form>
+    </div>
+
+    <script>
+        let myChart = document.getElementById("myChart").getContext("2d");
+
+        // Global options
+        Chart.defaults.global.defaultFontFamily = "Lato";
+        Chart.defaults.global.defaultFontSize = 12;
+        Chart.defaults.global.defaultFontColor = "#777";
+        
+        let massPopChart = new Chart(myChart, {
+            type: "doughnut", //bar, horizontalBar, pie, line, doughnut, radar, polarArea etc
+            data: {
+                labels: ["Handelsbanken Hälsovård Tema", "CB Save Earth Fund RC", "Nordea 1 - Latin American Equity BP", "DNB Teknologi A", "Avanza World Tech by TIN"],
+                datasets: [{
+                   label:"Avanza och SAVR innehav",
+                   data: [
+                   336,
+                   336,
+                   192,
+                   150,
+                   100,
+                   ],
+                //    backgroundColor: "green"
+                   backgroundColor: [
+                    "red",
+                    "orange",
+                    "yellow",
+                    "green",
+                    "blue",
+                    "grey",
+                    "black"
+                // "rgba(82, 215, 38)",
+                // "rgba(255, 236, 0)",
+                // "rgba(255, 115, 0)",
+                // "rgba(255, 0, 0)",
+                // "rgba(0, 126, 214)",
+                // "rgba(124, 221, 221)"
+                   ],
+                //    borderWidth: 1,
+                //    borderColor: "#777",
+                //    hoverBorderColor: "#777"
+                }]
+            },
+            options: {
+                title:{
+                    display:true,
+                    text: "Fondanalys",
+                    fontSize: 18
+                },
+                legend: {
+                    position: "top",
+                    labels: {
+                        fontColor: "#000",
+                        fontSize: 14
+                    }
+                },
+                layout: {
+                    padding:{
+                    // add padding
+                    }
+                },
+
+                // scales: {
+                //     yAxes: [{
+                //         ticks: {
+                //             beginAtZero: true
+                //         }
+                //     }]
+                // }
+            }
+        });
+
+        function addData(chart, label, data) {
+            chart.data.labels.push(label);
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(data);
+            });
+            chart.update();
+        }
+
+        document.getElementById('newDataButton').addEventListener('click', function() {
+            var fond = document.getElementById("newData").elements.namedItem("fond").value;
+            var mspar = document.getElementById("newData").elements.namedItem("mspar").value;
+            addData(massPopChart,fond,mspar);
+        })
+
+
+    </script>
+</body>
+</html>
